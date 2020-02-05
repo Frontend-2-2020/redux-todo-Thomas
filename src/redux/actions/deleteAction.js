@@ -1,6 +1,6 @@
-export default function deleteAction() {
+export default function deleteAction(id) {
   return {
     type: "DELETE_TODO",
-    payload: false
+    payload: id
   };
 }

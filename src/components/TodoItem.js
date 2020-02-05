@@ -5,7 +5,7 @@ import toggleAction from "../redux/actions/toggleAction";
 
 class TodoItem extends Component {
   render() {
-    const { todo, toggleTodo } = this.props;
+    const { todo, toggleTodo, deleteTodo } = this.props;
 
     return (
       <li className="list-group-item d-flex flex-direction-row justify-content-between">
@@ -13,7 +13,7 @@ class TodoItem extends Component {
         <div>
           <img
             className="mr-4"
-            onClick={toggleTodo}
+            // onClick={toggleTodo}
             src={
               todo.done == false
                 ? require("./../assets/icons/unchecked.png")
@@ -21,7 +21,11 @@ class TodoItem extends Component {
             }
             alt=""
           />
-          <img src={require("./../assets/icons/trash.png")} alt="" />
+          <img
+            onClick={() => deleteTodo(todo.id)}
+            src={require("./../assets/icons/trash.png")}
+            alt=""
+          />
         </div>
       </li>
     );
@@ -37,8 +41,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     toggleTodo: done => dispatch(toggleAction(done)),
-    deleteTodo: deleted => dispatch(deleteAction(deleted))
+    deleteTodo: id => dispatch(deleteAction(id))
   };
 };
 
-export default connect(mapStateToProps)(TodoItem);
+export default connect(mapStateToProps, mapDispatchToProps)(TodoItem);
