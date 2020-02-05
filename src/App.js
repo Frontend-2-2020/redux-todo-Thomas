@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import TodoItem from "./components/TodoItem";
+import addAction from "./redux/actions/addAction";
 
 class App extends Component {
   componentDidMount() {
@@ -13,17 +14,24 @@ class App extends Component {
       });
   }
 
+  handleSubmit = e => {
+    e.preventDefault();
+    const newTodo = document.getElementById("itemInput").value;
+    this.props.addTodo(newTodo);
+  };
+
   render() {
     const { todos } = this.props;
     return (
       <div className="container mt-4">
         <nav className="navbar navbar-light bg-secondary justify-content-between">
           <a className="navbar-brand">Todo-app Redux</a>
-          <form className="form-inline">
+          <form className="form-inline" onSubmit={this.handleSubmit}>
             <input
               className="form-control mr-sm-2"
               type="text"
               placeholder="New todo"
+              id="itemInput"
             />
             <button
               className="btn btn-outline-success my-2 my-sm-0"
@@ -51,7 +59,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchTodos: data => dispatch({ type: "FETCH_TODOS", payload: data })
+    fetchTodos: data => dispatch({ type: "FETCH_TODOS", payload: data }),
+    addTodo: newTodo => dispatch(addAction(newTodo))
   };
 };
 
